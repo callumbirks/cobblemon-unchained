@@ -3,7 +3,8 @@
   "package": "us.timinc.mc.cobblemon.chaining.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PokemonSpawnActionMixin"
+    "PokemonSpawnActionMixin",
+    "ChainingSpawnInfluenceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

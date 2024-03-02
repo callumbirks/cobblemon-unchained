@@ -3,10 +3,8 @@ package us.timinc.mc.cobblemon.chaining
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.fabricmc.api.ModInitializer
-import us.timinc.mc.cobblemon.chaining.config.HiddenBoostConfig
-import us.timinc.mc.cobblemon.chaining.config.IvBoostConfig
-import us.timinc.mc.cobblemon.chaining.config.ShinyBoostConfig
-import us.timinc.mc.cobblemon.chaining.config.SynchronizedNaturesConfig
+import org.slf4j.LoggerFactory
+import us.timinc.mc.cobblemon.chaining.config.*
 import us.timinc.mc.cobblemon.chaining.modules.HiddenBooster
 import us.timinc.mc.cobblemon.chaining.modules.IvBooster
 import us.timinc.mc.cobblemon.chaining.modules.ShinyBooster
@@ -15,10 +13,13 @@ import us.timinc.mc.cobblemon.chaining.modules.SynchronizedNatures
 object Chaining : ModInitializer {
     const val MOD_ID = "cobblemon_chaining"
 
+    private val logger = LoggerFactory.getLogger("spawnBooster")
+
     private lateinit var shinyBoostConfig: ShinyBoostConfig
     private lateinit var ivBoostConfig: IvBoostConfig
     private lateinit var hiddenBoostConfig: HiddenBoostConfig
     private lateinit var synchronizedNaturesConfig: SynchronizedNaturesConfig
+    public lateinit var spawnBoostConfig: SpawnBoostConfig
 
     private lateinit var ivBooster: IvBooster
     private lateinit var shinyBooster: ShinyBooster
@@ -30,6 +31,7 @@ object Chaining : ModInitializer {
         ivBoostConfig = IvBoostConfig.Builder.load()
         hiddenBoostConfig = HiddenBoostConfig.Builder.load()
         synchronizedNaturesConfig = SynchronizedNaturesConfig.Builder.load()
+        spawnBoostConfig = SpawnBoostConfig.Builder.load()
 
         shinyBooster = ShinyBooster(shinyBoostConfig)
         ivBooster = IvBooster(ivBoostConfig)
@@ -51,5 +53,9 @@ object Chaining : ModInitializer {
 
     fun possiblySynchronizeNatures(entity: PokemonEntity, ctx: SpawningContext) {
         synchronizedNatures.act(entity, ctx)
+    }
+
+    fun info(message: String) {
+        logger.info(message)
     }
 }
